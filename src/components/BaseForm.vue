@@ -49,7 +49,8 @@
 
   const handleSubmit = (form) => {
     if(form.errors.length > 0) return
-    emit('submit',{...user});
+    const {email, password} = user;
+    emit('submit',{email, password});
   }
 </script>
 
