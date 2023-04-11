@@ -1,6 +1,7 @@
 # vue3PiniaFirebase9ScriptSetup
 
-This template should help get you started developing with Vue 3 in Vite.
+Caparazón de registro y login con Firebase 9. Usando Vuetify, Pinia y Script Setup.
+
 
 ## Recommended IDE Setup
 
