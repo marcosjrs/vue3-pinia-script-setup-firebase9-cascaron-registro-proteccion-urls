@@ -1,9 +1,9 @@
 <template>
-  <BaseForm @submit="onSubmit"></BaseForm>
+  <BaseUserForm @submit="onSubmit"></BaseUserForm>
 </template>
 
 <script setup>
-import BaseForm from '../components/BaseForm.vue';
+import BaseUserForm from '../components/BaseUserForm.vue';
 import { useUserStore } from '../stores/user';
 
 import { useRouter } from "vue-router";

@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 const router = useRouter();
 const userStore = useUserStore();
 
-const {isLogged} = storeToRefs(userStore);
+const {isLogged, inAction} = storeToRefs(userStore);
 
 const logout = ()=>{
   userStore.logoutUser();
@@ -28,7 +28,7 @@ const logout = ()=>{
         <v-icon>mdi-login</v-icon>
         <v-tooltip activator="parent" location="top">Login</v-tooltip>
       </v-btn>
-      <v-btn v-if="isLogged" @click="logout()"   icon>
+      <v-btn v-if="isLogged" :disabled="inAction" @click="logout()"   icon>
         <v-icon>mdi-logout</v-icon>
         <v-tooltip activator="parent" location="top">Logout</v-tooltip>
       </v-btn>

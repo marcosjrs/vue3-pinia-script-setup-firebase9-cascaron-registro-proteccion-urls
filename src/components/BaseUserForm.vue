@@ -27,7 +27,7 @@
         </v-text-field>
         <!-- <pre> {{ $refs.form }} </pre> -->
 
-        <v-btn :disabled="!!$refs.form?.errors?.length" type="submit" block class="mt-2" required>Submit</v-btn>
+        <v-btn :disabled="!!$refs.form?.errors?.length || userStore.inAction" type="submit" block class="mt-2" required>Submit</v-btn>
       </v-form>
     </v-col>
   </v-row>
@@ -37,9 +37,11 @@
 
 <script setup>
   import { reactive, ref } from 'vue';
+  import {useUserStore} from '../stores/user'
   const emit = defineEmits(['submit'])
+  const userStore = useUserStore();
 
-  const user = reactive({ email:'', password:'' })
+  const user = reactive({ email:'user@email.com', password:'123456789' })
   const showPass = ref(false);
   const rules = {
     required: v => !!v || 'Campo requerido',
