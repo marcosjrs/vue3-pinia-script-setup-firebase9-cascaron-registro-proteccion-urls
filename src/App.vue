@@ -16,6 +16,9 @@ const logout = ()=>{
 </script>
 
 <template>
+  <div v-if="inAction" class="text-center velo" >
+    <v-progress-circular indeterminate color="primary" ></v-progress-circular>
+  </div>
   <header>
     <v-toolbar density="compact">
       <v-toolbar-title>Mi Aplicación</v-toolbar-title>
@@ -40,10 +43,22 @@ const logout = ()=>{
     </v-toolbar>
   </header>
   <v-container>
-    <RouterView />
+    <RouterView/>
   </v-container>
 </template>
 
 <style scoped>
-
+.velo {
+  background-color: rgba(194, 194, 194, 0.4);
+  height: 100vh;
+  position: absolute;
+  user-select: none;
+  width: 100vw;
+  z-index: 1;
+}
+.velo div{
+  left: 50vw;
+  position: absolute;
+  top: 50vh;
+}
 </style>
