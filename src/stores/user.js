@@ -60,7 +60,7 @@ export const useUserStore = defineStore("userStore", () => {
   }
 
   const isLogged = computed(() => {
-    return user.value?.uid
+    return !!user.value?.uid
   })
 
   onAuthStateChanged(auth, (userLogged) => {
