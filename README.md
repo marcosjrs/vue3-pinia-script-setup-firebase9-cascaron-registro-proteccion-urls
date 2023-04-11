@@ -1,6 +1,6 @@
 # vue3PiniaFirebase9ScriptSetup
 
-Caparazón de registro y login con Firebase 9. Usando Vuetify, Pinia y Script Setup.
+Caparazón/Cascarón de registro y login con Firebase 9 y protección básico de rutas. Usando Vuetify, Pinia y Script Setup.
 
 
 ## Recommended IDE Setup
