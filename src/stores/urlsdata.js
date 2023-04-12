@@ -71,9 +71,24 @@ export const useUrlsDataStore = defineStore("urlsDataStore", () => {
       if(!document.exists()) return;
 
       setDoc(docRef, urlData, { merge:true }); 
+      // Una forma:
+      // let founded = urlsData.find( el => el.id === urlData.id);
+      // founded.name = urlData.name;
+      // Otra forma, abreviando la anterior:
       //urlsData.find( el => el.id === urlData.id).name = urlData.name;
-      let founded = urlsData.find( el => el.id === urlData.id);
-      founded.name = urlData.name;
+      // Otra forma:
+      // urlsData = urlsData.map( 
+      //   data => {
+      //     if(data.id == urlData.id){
+      //       data.name = urlData.name; //no funcionaría: data = {...data, ...urlData}
+      //     }
+      //     return data; // no funcionaría: {...data}
+      //   }
+      // );
+      // Otra forma
+      const position = urlsData.findIndex( el => el.id === urlData.id);
+      urlsData.splice( position, 1, urlData);
+
     } catch (error) {
       console.warn(error);
     } finally {      
