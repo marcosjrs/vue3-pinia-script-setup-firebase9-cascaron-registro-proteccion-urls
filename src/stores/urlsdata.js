@@ -1,6 +1,6 @@
 import { reactive, ref } from "vue";
 import { defineStore } from "pinia";
-import { collection, query, where, getDocs, doc, addDoc, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, addDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig"
 import { useLoaderStore } from "./loader";
 import { nanoid } from "nanoid";
@@ -45,8 +45,12 @@ export const useUrlsDataStore = defineStore("urlsDataStore", () => {
     const loaderStore = useLoaderStore();
     try {  
       if(!auth.currentUser.uid) return;
-      loaderStore.inAction = true;     
-      await deleteDoc(doc(db, "urls", urlData.id)) 
+      loaderStore.inAction = true;  
+      const docRef = await doc(db, "urls", urlData.id)   
+      const document = await getDoc(docRef); // solo puede obtener los doc de el user. Tiene regla en firestore.
+      if(!document.exists()) return;
+
+      await deleteDoc(docRef) 
       urlsData.splice(urlsData.indexOf(urlData), 1);
     } catch (error) {
       console.warn(error);
