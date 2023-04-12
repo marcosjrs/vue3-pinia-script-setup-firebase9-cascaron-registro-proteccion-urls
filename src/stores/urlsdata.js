@@ -46,7 +46,7 @@ export const useUrlsDataStore = defineStore("urlsDataStore", () => {
     try {  
       if(!auth.currentUser.uid) return;
       loaderStore.inAction = true;  
-      const docRef = await doc(db, "urls", urlData.id)   
+      const docRef = doc(db, "urls", urlData.id)   
       const document = await getDoc(docRef); // solo puede obtener los doc de el user. Tiene regla en firestore.
       if(!document.exists()) return;
 
