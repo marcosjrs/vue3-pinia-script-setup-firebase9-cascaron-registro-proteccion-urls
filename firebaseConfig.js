@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-VB7culJvoZAs7fe8_A-EX0dINZOo3yM",
@@ -12,5 +13,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // https://firebase.google.com/docs/auth/web/start?hl=es&authuser=0
+const db = getFirestore(app); // https://firebase.google.com/docs/firestore/quickstart?hl=es&authuser=0#web-version-9
 
-export {auth}
+export {auth, db}
