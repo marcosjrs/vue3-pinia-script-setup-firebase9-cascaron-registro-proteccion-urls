@@ -14,48 +14,41 @@ export const useUserStore = defineStore("userStore", () => {
   const errorMessage = ref('');
 
   async function registerUser(email, password) {
-    try { 
-      //(auth: Auth, email: string, password: string) 
-      
-      inAction.value = true;
+    inAction.value = true;
+    try {     
       const {user} = await createUserWithEmailAndPassword(auth, email+'', password+'');
-      user.value = {...user};
-      inAction.value = false;
-      return true;      
-    } catch ({code, message}) {    
-      console.warn(code, message);  
-      errorCode.value = code;
-      errorMessage.value = message;
-      inAction.value = false;    
+      user.value = {...user};    
+    } catch (error) {    
+      handleLoginOrRegisterError(error) 
       return false;
+    } finally{
+      inAction.value = false; 
     }
+    return true;  
   }
 
   async function loginUser(email, password) {
+    inAction.value = true;
     try { 
-      inAction.value = true;
       const {user} = await signInWithEmailAndPassword(auth, email+'', password+'');
-      user.value = {...user};
-      inAction.value = false;
-      return true;
-      
-    } catch ({code, message}) {    
-      console.warn(code, message);  
-      errorCode.value = code;
-      errorMessage.value = message;
-      inAction.value = false;    
+      user.value = {...user};     
+    } catch (error) {    
+      handleLoginOrRegisterError(error)  
       return false;
-    }
+    } finally{
+      inAction.value = false; 
+    }    
+    return true; 
   }
 
   async function logoutUser() {
     try {  
       inAction.value = true;    
-      await signOut(auth);
-      inAction.value = false;    
+      await signOut(auth);  
     } catch (error) {
-      console.warn(error);
-      inAction.value = false;    
+      console.warn(error);   
+    } finally{
+      inAction.value = false; 
     }
   }
 
@@ -66,6 +59,11 @@ export const useUserStore = defineStore("userStore", () => {
   onAuthStateChanged(auth, (userLogged) => {
     user.value = userLogged ? {...userLogged} : {};
   });
+
+  const handleLoginOrRegisterError = ({code, message}) => {   
+    errorCode.value = code;
+    errorMessage.value = message;
+  }
 
 
   return { user, isLogged, inAction, registerUser, loginUser, logoutUser, errorCode, errorMessage };
