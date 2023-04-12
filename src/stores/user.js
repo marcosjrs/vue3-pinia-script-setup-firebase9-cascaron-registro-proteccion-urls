@@ -6,15 +6,16 @@ import {
   onAuthStateChanged, 
   signOut} from "firebase/auth";
 import { auth } from "../../firebaseConfig";
+import { useLoaderStore } from "./loader";
 
 export const useUserStore = defineStore("userStore", () => {
   const user = reactive({});
-  const inAction = ref(false);
   const errorCode = ref('0');
   const errorMessage = ref('');
 
   async function registerUser(email, password) {
-    inAction.value = true;
+    const loaderStore = useLoaderStore();
+    loaderStore.inAction = true;
     try {     
       const {user} = await createUserWithEmailAndPassword(auth, email+'', password+'');
       user.value = {...user};    
@@ -22,13 +23,14 @@ export const useUserStore = defineStore("userStore", () => {
       handleLoginOrRegisterError(error) 
       return false;
     } finally{
-      inAction.value = false; 
+      loaderStore.inAction = false; 
     }
     return true;  
   }
 
   async function loginUser(email, password) {
-    inAction.value = true;
+    const loaderStore = useLoaderStore();
+    loaderStore.inAction = true;
     try { 
       const {user} = await signInWithEmailAndPassword(auth, email+'', password+'');
       user.value = {...user};     
@@ -36,19 +38,20 @@ export const useUserStore = defineStore("userStore", () => {
       handleLoginOrRegisterError(error)  
       return false;
     } finally{
-      inAction.value = false; 
+      loaderStore.inAction = false; 
     }    
     return true; 
   }
 
   async function logoutUser() {
+    const loaderStore = useLoaderStore();
+    loaderStore.inAction = true;
     try {  
-      inAction.value = true;    
       await signOut(auth);  
     } catch (error) {
       console.warn(error);   
     } finally{
-      inAction.value = false; 
+      loaderStore.inAction = false; 
     }
   }
 
@@ -66,5 +69,5 @@ export const useUserStore = defineStore("userStore", () => {
   }
 
 
-  return { user, isLogged, inAction, registerUser, loginUser, logoutUser, errorCode, errorMessage };
+  return { user, isLogged, registerUser, loginUser, logoutUser, errorCode, errorMessage };
 });

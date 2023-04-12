@@ -1,12 +1,15 @@
 <script setup>
 import { RouterView, useRouter } from 'vue-router';
 import { useUserStore } from './stores/user';
+import { useLoaderStore } from './stores/loader';
 import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const userStore = useUserStore();
+const loaderStore = useLoaderStore();
 
-const {isLogged, inAction} = storeToRefs(userStore);
+const {isLogged} = storeToRefs(userStore);
+const {inAction} = storeToRefs(loaderStore);
 
 const logout = ()=>{
   userStore.logoutUser();
