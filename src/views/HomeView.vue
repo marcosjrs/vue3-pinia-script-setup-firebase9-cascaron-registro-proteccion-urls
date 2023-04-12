@@ -1,8 +1,9 @@
 <script setup>
+  import BaseUrls from "../components/BaseUrls.vue";
 </script>
 
 <template>
   <main>
-    <h1>This is an Home page</h1>
+    <BaseUrls></BaseUrls>
   </main>
 </template>
