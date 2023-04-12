@@ -1,6 +1,6 @@
 import { reactive, ref } from "vue";
-import { defineStore } from "pinia";
-import { collection, query, where, getDocs, doc, addDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { defineStore, storeToRefs } from "pinia";
+import { collection, query, where, getDocs, doc, addDoc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig"
 import { useLoaderStore } from "./loader";
 import { nanoid } from "nanoid";
@@ -58,5 +58,27 @@ export const useUrlsDataStore = defineStore("urlsDataStore", () => {
       loaderStore.inAction = false; 
     }
   }
-  return {urlsData, loadingDocs, fetchUrlsData, addUrlData, deleteUrlData}
+
+  
+  const updateUrlData = async (urlData) => {
+    const loaderStore = useLoaderStore();
+    try {  
+      if(!auth.currentUser.uid) return;
+      loaderStore.inAction = true; 
+
+      const docRef = await doc(db, "urls", urlData.id)   
+      const document = await getDoc(docRef); // solo puede obtener los doc de el user. Tiene regla en firestore.
+      if(!document.exists()) return;
+
+      setDoc(docRef, urlData, { merge:true }); 
+      //urlsData.find( el => el.id === urlData.id).name = urlData.name;
+      let founded = urlsData.find( el => el.id === urlData.id);
+      founded.name = urlData.name;
+    } catch (error) {
+      console.warn(error);
+    } finally {      
+      loaderStore.inAction = false; 
+    }
+  }
+  return {urlsData, loadingDocs, fetchUrlsData, addUrlData, deleteUrlData, updateUrlData}
 });
