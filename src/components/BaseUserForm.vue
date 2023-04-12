@@ -41,7 +41,7 @@
   const emit = defineEmits(['submit'])
   const userStore = useUserStore();
 
-  const user = reactive({ email:'user@email.com', password:'123456789' })
+  const user = reactive({ email:'', password:'' })
   const showPass = ref(false);
   const rules = {
     required: v => !!v || 'Campo requerido',
