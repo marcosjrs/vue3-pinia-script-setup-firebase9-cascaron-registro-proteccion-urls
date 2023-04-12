@@ -13,6 +13,7 @@ export const useUrlsDataStore = defineStore("urlsDataStore", () => {
     try {  
       if(!auth.currentUser.uid) return;
       loaderStore.inAction = true; 
+      // Además del where, se aplican reglas en el firestore, para que no pueda devolver urls que no sean suyas
       const q = query(collection(db, "urls"), where("user", "==", auth.currentUser.uid));
       const querySnapshot = await getDocs(q);
       urlsData.splice(0);
